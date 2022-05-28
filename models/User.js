@@ -41,7 +41,6 @@ userSchema.methods.getToken = function(){
 }
 
 userSchema.methods.comparePassword = async function(password){
-    console.log(userSchema.methods);
     return await bcrypt.compare(password, this.password);
 }
 

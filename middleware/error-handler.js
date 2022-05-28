@@ -1,22 +1,22 @@
 const { StatusCodes } = require('http-status-codes');
 
 const errorHandlerMiddleware = (err, req, res, next) => {
-
+  console.log(err)
   customError = {
     statusCode : err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
-    msg: err.msg || 'Something went wrong , try again later !',
+    msg: err.message || 'somthing went wrong... try again',
   }
   
   if(err.name === 'CastError'){
     customError.statusCode = 404;
-    customError.msg = 'No Item with the provided ID is available !'
+    customError.msg = 'No Job with the provided ID is available !'
   }
 
   if(err.name === 'ValidationError'){
      const errors = Object.values(err.errors).reduce((accu, item) => {
         return {...accu, [item.path] : item.message}
     }, {});
-    customError.statusCode = 400;
+    customError.statusCode = 422;
     customError.msg = {...errors};
   }
 

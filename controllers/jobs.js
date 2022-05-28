@@ -11,9 +11,10 @@ const getAllJobs = async (req, res) => {
 //get single job 
 const getSingleJob = async (req, res) => {
     const {user :{id :userID}, params : {id}} = req;
-    console.log(userID, id);
     const job = await Job.findOne({_id: id , createdBy: userID});
+    console.log(job)
     if(!job){
+        console.log('a marche')
         throw new NotFoundError('No Job with the provided ID is available !')
     }
     res.status(StatusCodes.OK).json({job})
@@ -45,7 +46,6 @@ const updateJob = async (req, res) => {
 const deleteJob = async (req, res) => {
     const {id} = req.params;
     const userID = req.user.id
-    console.log(userID, id);
     const job = await Job.findOneAndDelete({_id: id , createdBy: userID});
     if(!job){
         throw new NotFoundError('No Job with the provided ID is available !')
